@@ -1,23 +1,22 @@
-// open file 
-
 
 // reset ROI manager
 //roiManager("reset");
 
 // open file
-File.open("C:\\Users\\sedar\\Documents\\Seda_Radoykova\\OneDrive - University College London\\UCL\\SUMMER_Sian\\fitting_lines\\data_copy\\141\\20190124-141-maxproj.sld - 30s-intervals - 1.Project Maximum Z-2.tif");
+open("C:\\Users\\sedar\\Documents\\Seda_Radoykova\\OneDrive - University College London\\UCL\\SUMMER_Sian\\fitting_lines\\data_copy\\141\\20190124-141-maxproj.sld - 30s-intervals - 1.Project Maximum Z-2.tif");
 
 // format file name 
-selectWindow("20190124-141-maxproj.sld - 30s-intervals - 1.Project Maximum Z-2.tif");
-fileName = getTitle();
-fileName = replace(fileName, ".tif", "");
+fileNameTiff = getTitle();
+fileName = replace(fileNameTiff, ".tif", "");
+
+selectWindow(fileNameTiff);
 
 // make a results directory for given image
 currPath = File.directory;
 currPath = replace(currPath, "\\", "/");
-fullPath = currPath; 
+fullPath = replace(currPath, "data_copy/141/", "library_attempt/straight_lines/"); 
 //File.makeDirectory(fullPath);
-
+print(fullPath);
 
 // duplicating and saving ROIs 
 nRois = roiManager("count");
