@@ -10,7 +10,7 @@
 
 
 // open file
-open("C:\\Users\\sedar\\Documents\\Seda_Radoykova\\OneDrive - University College London\\UCL\\Culley_lab\\fitting_lines\\data_copy\\141\\20190124-141-maxproj.sld - 30s-intervals - 1.Project Maximum Z-2.tif");
+open("C:\\Users\\sedar\\Documents\\Seda_Radoykova\\OneDrive - University College London\\UCL\\Culley_lab\\fitting_lines\\dataCopy\\141\\20190124-141-maxproj.sld - 30s-intervals - 1.Project Maximum Z-2.tif");
 
 // format file name 
 fileNameTiff = getTitle();
@@ -25,7 +25,7 @@ lineType = getString("What type of line:", "straight");
 // get paths right
 currPath = File.directory;
 currPath = replace(currPath, "\\", "/");
-fullPath = replace(currPath, "data_copy/141/", "library_curation/"+lineType+"LineStacks/"); 
+fullPath = replace(currPath, "dataCopy/141/", "libraryCuration/"+lineType+"LineStacks/"); 
 // create a results directory image stacks
 //File.makeDirectory(fullPath); 
 
