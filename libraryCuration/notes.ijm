@@ -4,7 +4,9 @@
 
 
 // open file
-open("C:\\Users\\sedar\\Documents\\Seda_Radoykova\\OneDrive - University College London\\UCL\\Culley_lab\\fitting_lines\\data_copy\\141\\20190124-141-maxproj.sld - 30s-intervals - 1.Project Maximum Z-2.tif");
+open("C:\\Users\\sedar\\Documents\\Seda_Radoykova\\OneDrive - University College London\\UCL\\Culley_lab\\fitting_lines\\dataCopy\\141\\20190124-141-maxproj.sld - 30s-intervals - 1.Project Maximum Z-2.tif");
 
 
-lineType = getString("What type of line:", "NA");
+//lineType = getString("What type of line:", "NA");
+
+makeRectangle(600, 600, 128, 128);
