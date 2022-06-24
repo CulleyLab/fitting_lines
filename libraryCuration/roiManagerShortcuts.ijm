@@ -23,6 +23,9 @@ macro "Add Intersecting [8]"{
 //	}
 //}
 
+// Installation instructions!!
+// https://imagej.nih.gov/ij/developer/macro/macros.html#:~:text=it%20starts%20up.-,Keyboard%20Shortcuts,-A%20macro%20in
+
 function storeRoiType(arg){
 	roiCount = roiManager("count"); // count how many rois are currently in manager
 	run("Select All"); // add a roi that is size of image to this slice
