@@ -13,14 +13,16 @@ macro "Add Intersecting [8]"{
 //TODO: add any other classes that we want to curate e.g. 'unclear' (queer?), 'multiple'...
 
 macro "Separate into types"{
-
+	
 	title = getTitle();
 	titleClean = replace(title, ".tif", "");
 	
 	currPath = File.directory;
+	parentPath = File.getParent(currPath);
 	currPath = replace(currPath, "\\", "/");
-	// this replaces straightLineStacks but images could be in other dir...
-	subStackPath = replace(currPath, "straightLineStacks/", "subStacks/");
+	parentPath = replace(parentPath, "\\", "/");
+	
+	subStackPath = parentPath + "/subStacks/";
 	
 	posStraight = "";
 	posCurved = "";
@@ -51,27 +53,17 @@ macro "Separate into types"{
 			}
 		}
 	}
-	
-	// delete trailing comma
-	posStraight = substring(posStraight, 0, posStraight.length-1);
-	posCurved = substring(posCurved, 0, posCurved.length-1);
-	posIntersecting = substring(posIntersecting, 0, posIntersecting.length-1);
 
+	// delete trailing comma
+	posStraight = rmTrailingComma(posStraight);
+	posCurved = rmTrailingComma(posCurved);
+	posIntersecting = rmTrailingComma(posIntersecting);
+	
 	// move slices to respective folders
-	selectImage(title);
-	run("Make Substack...", "slices="+posStraight);
-	rename(titleClean+"-straight");	
-	save(subStackPath+"straight/"+titleClean+"-straightSubstack.tif");	
-		
-	selectImage(title);
-	run("Make Substack...", "slices="+posCurved);
-	rename(titleClean+"-curved");	
-	save(subStackPath+"curved/"+titleClean+"-curvedSubstack.tif");	
-		
-	selectImage(title);
-	run("Make Substack...", "slices="+posIntersecting);
-	rename(titleClean+"-intersecting");
-	save(subStackPath+"intersecting/"+titleClean+"-intersectingSubstack.tif");		
+	sortSliceToSubstack(title, titleClean, subStackPath, "straight", posStraight);
+	sortSliceToSubstack(title, titleClean, subStackPath, "curved", posCurved);
+	sortSliceToSubstack(title, titleClean, subStackPath, "intersecting", posIntersecting);
+
 }
 
 
@@ -84,4 +76,25 @@ function storeRoiType(arg){
 	roiManager("rename", Roi.getName+"-"+arg); // append string stored in 'arg' to end of roi name
 }
 
+
+//  del trailing comma
+function rmTrailingComma(posString){
+	if (posString.length > 0){
+		posString = substring(posString, 0, posString.length-1);
+	}
+	return posString;
+}
+
+
+	// TODO: fix if statement to check if posString>0... 
+// move slices to respective folders
+function sortSliceToSubstack(
+	imgTitle, titleClean, subStackPath,
+	lineType, posString
+	){
+		selectImage(imgTitle);
+		run("Make Substack...", "slices="+posString);
+		rename(titleClean+"-"+lineType);	
+		save(subStackPath+lineType+"/"+titleClean+"-"+lineType+"Substack.tif");	
+}
 
