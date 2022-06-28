@@ -92,9 +92,11 @@ function sortSliceToSubstack(
 	imgTitle, titleClean, subStackPath,
 	lineType, posString
 	){
-		selectImage(imgTitle);
-		run("Make Substack...", "slices="+posString);
-		rename(titleClean+"-"+lineType);	
-		save(subStackPath+lineType+"/"+titleClean+"-"+lineType+"Substack.tif");	
+		if (posString.length > 0){
+			selectImage(imgTitle);
+			run("Make Substack...", "slices="+posString);
+			rename(titleClean+"-"+lineType);	
+			save(subStackPath+lineType+"/"+titleClean+"-"+lineType+"Substack.tif");	
+		}		
 }
 
