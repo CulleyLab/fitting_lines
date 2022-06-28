@@ -10,6 +10,10 @@ macro "Add Intersecting [8]"{
 	storeRoiType("intersecting");
 }
 
+macro "Add Other [9]"{
+	storeRoiType("other");
+}
+
 //TODO: add any other classes that we want to curate e.g. 'unclear' (queer?), 'multiple'...
 
 macro "Separate into types"{
@@ -27,6 +31,7 @@ macro "Separate into types"{
 	posStraight = "";
 	posCurved = "";
 	posIntersecting = "";
+	posOther = "";
 
 	// check if nSlices == nROIs in manager
 	if (nSlices != roiManager("count")) {
@@ -51,6 +56,9 @@ macro "Separate into types"{
 			else if(endsWith(roiName, "intersecting")){
 				posIntersecting = posIntersecting+position+",";
 			}
+			else if(endsWith(roiName, "other")){
+				posOther = posOther+position+",";
+			}
 		}
 	}
 
@@ -58,11 +66,13 @@ macro "Separate into types"{
 	posStraight = rmTrailingComma(posStraight);
 	posCurved = rmTrailingComma(posCurved);
 	posIntersecting = rmTrailingComma(posIntersecting);
+	posOther = rmTrailingComma(posOther);
 	
 	// move slices to respective folders
 	sortSliceToSubstack(title, titleClean, subStackPath, "straight", posStraight);
 	sortSliceToSubstack(title, titleClean, subStackPath, "curved", posCurved);
 	sortSliceToSubstack(title, titleClean, subStackPath, "intersecting", posIntersecting);
+	sortSliceToSubstack(title, titleClean, subStackPath, "other", posOther);
 
 }
 
