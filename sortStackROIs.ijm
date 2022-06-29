@@ -27,6 +27,10 @@ macro "Separate into types"{
 	parentPath = replace(parentPath, "\\", "/");
 	
 	subStackPath = parentPath + "/subStacks/";
+
+	originDir = split(currPath, "/");
+	index = originDir.length-1;
+	originDir = originDir[index];
 	
 	posStraight = "";
 	posCurved = "";
@@ -39,7 +43,7 @@ macro "Separate into types"{
 		
 	} else {
 		// save ROIs
-		roiManager("save", subStackPath+"ROIs/"+titleClean+".zip");
+		roiManager("save", subStackPath+"ROIs/"+titleClean+"-"+originDir+".zip");
 		
 		// assign slice positions to categories
 		for(i=0; i<roiManager("count"); i++){
@@ -96,7 +100,7 @@ function rmTrailingComma(posString){
 }
 
 
-	// TODO: fix if statement to check if posString>0... 
+
 // move slices to respective folders
 function sortSliceToSubstack(
 	imgTitle, titleClean, subStackPath,
@@ -106,7 +110,7 @@ function sortSliceToSubstack(
 			selectImage(imgTitle);
 			run("Make Substack...", "slices="+posString);
 			rename(titleClean+"-"+lineType);	
-			save(subStackPath+lineType+"/"+titleClean+"-"+lineType+"Substack.tif");	
+			save(subStackPath+lineType+"/"+titleClean+"-"+originDir+"-"+lineType+"Substack.tif");	
 		}		
 }
 
