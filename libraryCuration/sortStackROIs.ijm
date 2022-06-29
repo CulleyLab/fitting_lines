@@ -78,6 +78,8 @@ macro "Separate into types"{
 	sortSliceToSubstack(title, titleClean, subStackPath, "intersecting", posIntersecting);
 	sortSliceToSubstack(title, titleClean, subStackPath, "other", posOther);
 
+	close("*");
+	roiManager("reset");
 }
 
 
@@ -111,8 +113,6 @@ function sortSliceToSubstack(
 			run("Make Substack...", "slices="+posString);
 			rename(titleClean+"-"+lineType);	
 			save(subStackPath+lineType+"/"+titleClean+"-"+originDir+"-"+lineType+"Substack.tif");
-			close("*");
-			roiManager("reset");
 		}
 }
 
