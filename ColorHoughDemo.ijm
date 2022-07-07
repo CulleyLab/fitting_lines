@@ -1,5 +1,9 @@
-// make new image with random line
-newImage("Original line", "32-bit black", 25, 25, 1);
+showMessageWithCancel("Continue with macro?", "Pressing OK will clear all current images and log, otherwise cancel!");
+close("*");
+print("\\Clear");
+
+w = 25; h = 25;
+newImage("Original line", "32-bit black", w, h, 1);
 setBackgroundColor(0, 0, 0);
 pointsInIm = 0;
 
@@ -16,7 +20,7 @@ while(pointsInIm<3){
 	length = 8;
 	
 	for(x=x0; x<x0+length; x++){
-		if(x>=25) break;
+		if(x>=w) break;
 		y = m*x + c;
 		setPixel(x, round(y), 1);
 	}
