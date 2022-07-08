@@ -39,6 +39,7 @@ if(toDo==items[0]){
 			setPixel(x, round(y), 1);
 		}
 		pointsInIm = getNPointsInIm();
+		if(isNaN(pointsInIm)) pointsInIm=0;
 	}
 	print("Target equation: y="+m+"*x +"+c);
 	
