@@ -138,7 +138,8 @@ for(i=0; i<pointsInIm; i++){
 	if(toDo!=items[2]) setSlice(i+1);
 
 	for(t=0; t<thetas; t++){
-		t_ = Math.toRadians(t);
+		if(t==45||t==135) continue;
+		t_ = Math.toRadians(t*(thetas/180));
 		d = round(x*cos(t_) + y*sin(t_));
 		selectImage("Individual Accumulators");
 		setPixel(t, d+maxD, parseInt(hex, 16));
@@ -154,23 +155,29 @@ if(toDo!=items[2]) run("Z Project...", "projection=[Max Intensity]");
 
 selectImage("Sum Accumulator");
 run("Enhance Contrast", "saturated=0.35");
-maxAcc = getIndOfMax();
-theta = maxAcc[0];
-d = maxAcc[1];
-d -= maxD;
-print("theta="+theta+", d="+d);
-
+nMax = 5;
+minDist = 8;
+maxAcc = getIndOfNBestMax(nMax, minDist);
+setBatchMode("exit and display");
 newImage("Found line", "32-bit black", w, h, 1);
-x0 = d*cos(Math.toRadians(theta));
-y0 = d*sin(Math.toRadians(theta));
-//print("x0="+x0+", y0="+y0);
-setPixel(x0, y0, 1);
-m_ = -tan(Math.toRadians(90-theta));
-c_ = y0 - m_*x0;
-print("Found line: y = "+m_+"x + "+c_);
 
-for(x=0; x<w; x++){
-	setPixel(x, round(m_*x+c_), 1);
+for(n=0; n<nMax; n++){
+	theta = maxAcc[n*2];
+	d = maxAcc[n*2+1];
+	d -= maxD;
+	print("theta="+theta+", d="+d);
+	
+	x0 = d*cos(Math.toRadians(theta));
+	y0 = d*sin(Math.toRadians(theta));
+	//print("x0="+x0+", y0="+y0);
+	setPixel(x0, y0, nMax-n);
+	m_ = -tan(Math.toRadians(90-theta));
+	c_ = y0 - m_*x0;
+	print("Found line: y = "+m_+"x + "+c_);
+	
+	for(x=0; x<w; x++){
+		setPixel(x, round(m_*x+c_), nMax-n);
+	}
 }
 
 run("Tile");
@@ -232,7 +239,7 @@ function getIndOfMax(){
 	return newArray(x_, y_);
 }
 
-function getIndOfNBestMax(N){
+function getIndOfNBestMax(N, minDist){
 	setBatchMode("hide");
 	
 	run("Duplicate...", "title=test");
@@ -255,11 +262,12 @@ function getIndOfNBestMax(N){
 		result[2*n]=x_;
 		result[2*n+1]=y_;
 
-		for(x=x_-3; x<=x_+3; x++){
-			for(y=y_-3; y<=y_+3; x++){
+		for(x=x_-minDist; x<=x_+minDist; x++){
+			for(y=y_-minDist; y<=y_+minDist; y++){
 				setPixel(x, y, 0);
 			}
 		}
 	}
+	close("test");
 	return result;
 }
