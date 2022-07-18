@@ -1,5 +1,5 @@
 close("*");
-files = getFileList("C:/Users/sedar/OneDrive/Desktop/trying things wtihout ruining the data/batch");
+files = getFileList("C:/Users/sedar/Documents/Seda_Radoykova/OneDrive - University College London/UCL/Culley_lab/fitting_lines/detectingLines/straightLinesSubset");
 SIGMA = newArray(0.75, 1, 1.25);
 bestSigma = newArray(files.length);
 
