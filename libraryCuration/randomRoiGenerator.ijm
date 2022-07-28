@@ -1,13 +1,20 @@
-// user defined params 
-nRoisToGenerate = 10;	// number of desired ROIs
-RoiWH = 128; 			// desired ROI width/height (assuming NxN input images) 
-// threshold = mean + 1sd 
+/* 
+ * 	Running this script with an open image generates a number of ROIs,
+ * 	provided that the central pixel intensity > threshold;
+ * 			threshold = mean + 1sd (defined later) 
+ * 	it saves all ROIs and the individual ROI frames.  
+ */
 
+
+// user defined params 
+nRoisToGenerate = 14;	// number of desired ROIs
+RoiWH = 128; 			// desired ROI width/height (assuming NxN input images) 
+
+// image info 
 title = getTitle;
 imTitle = replace(title, ".tif", "");
 width = getWidth;
 height = getHeight;
-//depth = nSlices;
 
 currPath = File.directory;
 currPath = replace(currPath, "\\", "/");
@@ -34,7 +41,7 @@ stdVal = getResult("StdDev", 0);
 threshold = round(meanVal+stdVal/2);
 print("threshold ="+threshold);
 
-// some functions
+// generate indeces 
 function generateInd(imWidth, imHeight, RoiWH){
 	xInd = round(random()*width);
 	yInd = round(random()*height);
@@ -46,7 +53,7 @@ function generateInd(imWidth, imHeight, RoiWH){
 	return newArray(xInd, yInd);
 }
 
-// first ROI
+// get first ROI
 do { 
 	inds = generateInd(width, height, RoiWH);
 	xInd = inds[0];
@@ -112,28 +119,29 @@ print("  nROIs = "+roiManager("count"));
 print("  arrayMults = "+totalXPoints.length/(128*128));
 
 
-
 // save ROIs
-roiManager("save", currPath+"../../Unet/data/"+imTitle+"-ROIs"+".zip");
+roiManager("save", currPath+"../../Unet/rawData/"+imTitle+"-ROIs"+".zip");
 
-// duplicate and save ROI images as stacks  
+// duplicate and save ROI images as stacks or as frames  
 nRois = roiManager("count");
 
 for (i=0; i<nRois; i++){
 	selectWindow(title);
 	roiManager("Select", i);
-	run("Duplicate...", "duplicate");
-	save(currPath + "../../Unet/data/" + imTitle + " - " + i + ".tif");	
+	run("Duplicate...", "title=roiCopy duplicate");
+	nFrames = nSlices;
+	//save(currPath+"../../Unet/rawData/"+imTitle+" - "+i+".tif");
+	for (j=0; j<nFrames; j++){
+		selectWindow("roiCopy");
+		setSlice(j+1);
+		run("Duplicate...", "use");
+		save(currPath+"../../Unet/rawData/"+imTitle+" - "+i+"-"+j+".tif");
+		run("Close");
+	}
+	
 }
 
-
-
-/* TODO:
- * convert image to 32 bit 
- * seinsibly set a threshold depending on pixel intensities
- * save images using title+nRoi+nSlice convention
- * save ROIs
- */
+print("Done!");
 
 
 
@@ -141,7 +149,9 @@ for (i=0; i<nRois; i++){
  * duplicate image  
  * mean filter, rad 64
  * select random ROIs, duplicate images, unstack, save
- * 		have a script which checks that ROIs don't overlap 
+ * 		have a bit which checks that ROIs don't overlap 
+ * 		another bit to check that the ROI borders are not outside the image 
  * 		also threshold and select ROIs centered around p_intensity > threshold 
+ * 	skeletonise the frames
  * 	try to train CNN to perform skeletonisation 
  */
