@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 # Detecting and measuring straight lines
 
 The aim of this stage of the summer project was to detect straight microtubules in microscopy images. Skeletonisation, linear regression, and the linear Hough transform offered distinct advantages and disadvantages. 
@@ -58,16 +63,16 @@ Disadvantages:
 
 ### Linear regression vs linear Hough transform for one straight line in a skeletonised image
 
-![fig1](../report/figs/ht_vs_lin_reg.png?raw=true "lin reg vs hough transf")
+![](../report/figs/ht_vs_lin_reg.png?raw=true "lin reg vs hough transf")
 
 
 There is a slight (and practically negligible) difference in the deteceted lines. Whereas linear regression minimises the square of all residuals, the Hough transform gives more weight to points which lie on the same straight line (which result in more intersecting curves in Hough space and a more incremented accumulator). Linear regression would not be able to handle vertical lines.
 
 ### Detect multiple lines in skeletonised and raw data using local maxima detection algorithm
 
-![fig2a](../report/figs/phantom_lines.png?raw=true "skeletonised")
+![](../report/figs/phantom_lines.png?raw=true "skeletonised")
 
-![fig2b](../report/figs/phantom_lines_raw.png?raw=true "raw")
+![](../report/figs/phantom_lines_raw.png?raw=true "raw")
 
 Deciding on a suitable max_dist parameter for `peak_local_max()` is challenging, as $\theta$ and $\rho$ are anisotropic and specify different distances. In addition to phantom lines (in brown), multiple lines lying on or close to a given line are detected. 
 
@@ -75,15 +80,15 @@ Deciding on a suitable max_dist parameter for `peak_local_max()` is challenging,
 
 Varying $\theta$ and $\rho$ has different effects on the detected lines in Cartesian space. 
 
-![fig3](../report/figs/var_rho_theta.png?raw=true "var rho theta")
+![](../report/figs/var_rho_theta.png?raw=true "var rho theta")
 
 There was a faint attempt to explore the behaviour of the `min_distance` parameter, but the results of varying `min_distance` were not straightworward to interpret and generalise to more line detection cases... 
 
-![fig3b](../report/figs/min_dist.png?raw=true "var min")
+![](../report/figs/min_dist.png?raw=true "var min")
 
 ### Obtaining line profiles to narrow the detected lines down to true lines
 
-![fig4a](../report/figs/line_profs.png?raw=true "line profiles")
+![](../report/figs/line_profs.png?raw=true "line profiles")
 
 The intensity profiles of all detected lines showed that while the profiles of all lines were unique, they all shared at least one peak which was approximately Gaussian, corresponding to brighter pixels. 
 
@@ -91,7 +96,7 @@ This could be exploited along with the tendecy of the Hough transform to connect
 
 Fitting a Gaussian curve to the intensity profiles allowed for the peaks to be further selected via `sigma < threshdold`. 
 
-![fig4b](../report/figs/line_profs_individual.png?raw=true "line profiles and Gaussians")
+![](../report/figs/line_profs_individual.png?raw=true "line profiles and Gaussians")
 
 ### Final steps: curating lines along the same true line (and plotting them correctly)
 
