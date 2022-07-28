@@ -9,3 +9,5 @@ libraryCuration/intersectingLineStacks/*
 libraryCuration/substacks/*
 Hough_transform/.ipynb_checkpoints
 Hough_transform/Hough_transform_debugging.ipynb
+Hough_transform/accumulator.csv
+report/detecting_straight_lines_report.html
