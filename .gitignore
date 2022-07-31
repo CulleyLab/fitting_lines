@@ -13,3 +13,4 @@ report/detecting_straight_lines_report.html
 Unet/dataCuration/*
 Unet/.ipynb_checkpoints/*
 dataCopyLocal/*
+detectingLinesLocal/*
