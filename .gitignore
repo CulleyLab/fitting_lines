@@ -2,7 +2,6 @@
 libraryCuration/.DS_Store
 .ipynb_checkpoints
 originalData/*
-dataCopy/*
 libraryCuration/straightLineStacks/*
 libraryCuration/curvedLineStacks/*
 libraryCuration/intersectingLineStacks/*
@@ -13,3 +12,4 @@ Hough_transform/accumulator.csv
 report/detecting_straight_lines_report.html
 Unet/dataCuration/*
 Unet/.ipynb_checkpoints/*
+dataCopyLocal/*
