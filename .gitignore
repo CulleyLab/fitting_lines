@@ -10,6 +10,8 @@ libraryCuration/substacks/*
 Hough_transform/.ipynb_checkpoints
 Hough_transform/Hough_transform_debugging.ipynb
 Unet/dataCuration/*
+Unet/rawCurated/*
+Unet/skeletonisedCurated/*
 Unet/.ipynb_checkpoints/*
 Unet/python_notebooks/raw/*
 Unet/python_notebooks/skeletonised/*
